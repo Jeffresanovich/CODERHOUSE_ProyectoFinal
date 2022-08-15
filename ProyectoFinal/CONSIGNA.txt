@@ -1,0 +1,13 @@
+Primera entrega
+ENTREGA DEL PROYECTO FINAL
+
+Se debe entregar:
+* Clases del modelo para obtener los datos.  => LISTO
+* Métodos con los Comandos SQL de consulta.
+* Métodos implementando ADO.NET:
+
+    - Traer Usuario             =>
+    - Traer Productos           =>
+    - Traer ProductosVendidos   =>
+    - Traer Ventas              =>
+    - Inicio de sesión          =>
