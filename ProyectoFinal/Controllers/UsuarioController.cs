@@ -1,4 +1,4 @@
-//using ProyectoFinal.Model;
+using ProyectoFinal.Model;
 using ProyectoFinal.Repository;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,10 +8,10 @@ namespace ProyectoFinal.Controller
     [ApiController]
     public class UsuarioController : ControllerBase
     {
-        [HttpGet("{username}/{password}")]
-        public bool GetOneByUsernameAndPassword(string username, string password)
+        [HttpGet("{id}")]
+        public Usuario GetOneById(int id)
         {
-            return UsuarioHandler.GetOneByUsernameAndPassword(username, password);
+            return UsuarioHandler.GetOneById(id);
         }
     }
 }
