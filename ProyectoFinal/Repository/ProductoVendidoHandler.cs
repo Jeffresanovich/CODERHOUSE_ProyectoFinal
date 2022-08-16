@@ -122,12 +122,14 @@ namespace ProyectoFinal.Repository
 
             using (SqlConnection sqlConnection = new SqlConnection(connectionString))
             {
+                sqlConnection.Open();
                 using (SqlCommand sqlCommand = new SqlCommand(queryDelete, sqlConnection))
                 {
                     SqlParameter idParameter = new SqlParameter("id", System.Data.SqlDbType.BigInt) { Value = id };
                     sqlCommand.Parameters.Add(idParameter);
                     sqlCommand.ExecuteNonQuery();
                 }
+                sqlConnection.Close();
             }
         }
     }
