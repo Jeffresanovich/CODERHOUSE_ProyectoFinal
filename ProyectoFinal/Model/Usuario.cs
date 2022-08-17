@@ -8,5 +8,6 @@ namespace ProyectoFinal.Model
         public string NombreUsuario { set; get; }
         public string Contraseña { set; get; }
         public string Mail { set; get; }
+
     }
 }
