@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Jeff\\Desktop\\ProyectoFinal\\ProyectoFinal\\ProyectoFinal.csproj": {}
+    "C:\\REPOSITORIOS\\CODERHOUSE_ProyectoFinal\\CODERHOUSE_ProyectoFinal\\ProyectoFinal\\ProyectoFinal.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Jeff\\Desktop\\ProyectoFinal\\ProyectoFinal\\ProyectoFinal.csproj": {
+    "C:\\REPOSITORIOS\\CODERHOUSE_ProyectoFinal\\CODERHOUSE_ProyectoFinal\\ProyectoFinal\\ProyectoFinal.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Jeff\\Desktop\\ProyectoFinal\\ProyectoFinal\\ProyectoFinal.csproj",
+        "projectUniqueName": "C:\\REPOSITORIOS\\CODERHOUSE_ProyectoFinal\\CODERHOUSE_ProyectoFinal\\ProyectoFinal\\ProyectoFinal.csproj",
         "projectName": "ProyectoFinal",
-        "projectPath": "C:\\Users\\Jeff\\Desktop\\ProyectoFinal\\ProyectoFinal\\ProyectoFinal.csproj",
+        "projectPath": "C:\\REPOSITORIOS\\CODERHOUSE_ProyectoFinal\\CODERHOUSE_ProyectoFinal\\ProyectoFinal\\ProyectoFinal.csproj",
         "packagesPath": "C:\\Users\\Jeff\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Jeff\\Desktop\\ProyectoFinal\\ProyectoFinal\\obj\\",
+        "outputPath": "C:\\REPOSITORIOS\\CODERHOUSE_ProyectoFinal\\CODERHOUSE_ProyectoFinal\\ProyectoFinal\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -59,7 +59,8 @@
             "net47",
             "net471",
             "net472",
-            "net48"
+            "net48",
+            "net481"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -71,7 +72,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.301\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.400\\RuntimeIdentifierGraph.json"
         }
       }
     }

@@ -51,9 +51,7 @@ namespace ProyectoFinal.Repository
         {
             //DEVUELVE TRUE SI COINCIDE USUARIO Y CONTRASEÑA: "Inicio de sesión"
 
-            bool loginAccess = false;
-
-            Usuario usuario = new Usuario();
+            bool resultado = false;
 
             string querySelect = "SELECT * FROM Usuario WHERE NombreUsuario = @username AND Contraseña = @password";
 
@@ -72,38 +70,39 @@ namespace ProyectoFinal.Repository
                     {
                         if (dataReader.HasRows)
                         {
-                            loginAccess = true;
+                            resultado = true;
                         }
                     }
                 }
                 sqlConnection.Close();
             }
-            return loginAccess;
+            return resultado;
         }
 
-        public static void Create(Usuario usuario)
+        public static bool Create(Usuario usuario)
         {
             string queryCreate = "INSERT INTO Usuario (Nombre,Apellido,NombreUsuario,Contraseña,Mail) " +
                                  "VALUES (@nombre,@apellido,@nombreUsuario,@contraseña,@mail)";
 
-            CreateUpdateConnection(usuario, queryCreate);
+            return CreateUpdateConnection(usuario, queryCreate);
         }
-        public static void Update(int id)
-        {
-            Usuario usuario = GetOneById(id);
-
+        public static bool Update(Usuario usuario)
+        {       
             string queryUpdate = "UPDATE Usuario " +
-                                "SET Nombre=@nombre, " +
-                                    "Apellido=@apellido, " +
-                                    "NombreUsuario=@nombreUsuario, " +
-                                    "Contraseña=@contraseña, " +
-                                    "Mail=@mail " +
-                                "WHERE = Id = @id";
+                                "SET Nombre = @nombre, " +
+                                    "Apellido = @apellido, " +
+                                    "NombreUsuario = @nombreUsuario, " +
+                                    "Contraseña = @contraseña, " +
+                                    "Mail = @mail " +
+                                "WHERE Id = @id";
 
-            CreateUpdateConnection(usuario, queryUpdate);
+            return CreateUpdateConnection(usuario, queryUpdate);
         }
-        private static void CreateUpdateConnection(Usuario usuario, string query)
+        private static bool CreateUpdateConnection(Usuario usuario, string query)
         {
+            int numeroDeRows;
+            bool resultado = false;
+
             using (SqlConnection sqlConnection = new SqlConnection(connectionString))
             {
                 sqlConnection.Open();
@@ -124,13 +123,22 @@ namespace ProyectoFinal.Repository
                     sqlCommand.Parameters.Add(contraseñaParameter);
                     sqlCommand.Parameters.Add(mailParameter);
 
-                    sqlCommand.ExecuteNonQuery();
+                    numeroDeRows = sqlCommand.ExecuteNonQuery();
+                    if (numeroDeRows > 0)
+                    {
+                        resultado = true;
+                    }
                 }
                 sqlConnection.Close();
             }
+            return resultado;
         }
-        public static void Delete(int id)
+       
+        public static bool Delete(int id)
         {
+            int numeroDeRows;
+            bool resultado = false;
+
             string queryDelete = "DELETE FROM Usuario WHERE Id = @id";
 
             using (SqlConnection sqlConnection = new SqlConnection(connectionString))
@@ -140,9 +148,14 @@ namespace ProyectoFinal.Repository
                 {
                     SqlParameter idParameter = new SqlParameter("id", System.Data.SqlDbType.BigInt) { Value = id };
                     sqlCommand.Parameters.Add(idParameter);
-                    sqlCommand.ExecuteNonQuery();
+                    numeroDeRows = sqlCommand.ExecuteNonQuery();
+                    if (numeroDeRows > 0)
+                    {
+                        resultado = true;
+                    }
+                    sqlConnection.Close();
                 }
-                sqlConnection.Close();
+                return resultado;
             }
         }
     }

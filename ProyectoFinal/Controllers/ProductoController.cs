@@ -2,7 +2,7 @@ using ProyectoFinal.Model;
 using ProyectoFinal.Repository;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ProyectoFinal.Controller
+namespace ProyectoFinal.Controllers
 {
     [Route("[Controller]")]
     [ApiController]
