@@ -3,7 +3,7 @@ using System.Data.SqlClient;
 
 namespace ProyectoFinal.Repository
 {
-    public static class ProductoHanlder
+    public static class ProductoHandler
     {
         public const string connectionString = @"Server=JEFF-PC;Database=SistemaGestion;Trusted_Connection=True";
 
@@ -80,29 +80,30 @@ namespace ProyectoFinal.Repository
             return producto;
         }
 
-        public static void Create(Producto producto)
+        public static bool Create(Producto producto)
         {
             string queryCreate = "INSERT INTO Producto (Descripciones,Costo,PrecioVenta,Stock,IdUsuario) " +
                                  "VALUES (@descripciones,@costo,@precioVenta,@stock,@idUsuario)";
 
-            CreateUpdateConnection(producto, queryCreate);
+            return CreateUpdateConnection(producto, queryCreate);
         }
-        public static void Update(int id)
+        public static bool Update(Producto producto)
         {
-            Producto producto = GetOneById(id);
-
             string queryUpdate = "UPDATE Producto " +
                                 "SET Descripciones=@descripciones, " +
                                     "Costo=@costo, " +
                                     "PrecioVenta=@precioVenta, " +
                                     "Stock=@stock, " +
                                     "IdUsuario=@idUsuario " +
-                                "WHERE = Id = @id";
+                                "WHERE Id = @id";
 
-            CreateUpdateConnection(producto, queryUpdate);
+            return CreateUpdateConnection(producto, queryUpdate);
         }
-        private static void CreateUpdateConnection(Producto producto, string query)
+        private static bool CreateUpdateConnection(Producto producto, string query)
         {
+            int numeroDeRows;
+            bool resultado = false;
+
             using (SqlConnection sqlConnection = new SqlConnection(connectionString))
             {
                 sqlConnection.Open();
@@ -123,13 +124,22 @@ namespace ProyectoFinal.Repository
                     sqlCommand.Parameters.Add(stockParameter);
                     sqlCommand.Parameters.Add(idUsuarioParameter);
 
-                    sqlCommand.ExecuteNonQuery();
+                    numeroDeRows=sqlCommand.ExecuteNonQuery();
+                    if (numeroDeRows>0)
+                    {
+                        resultado = true;
+                    }
                 }
                 sqlConnection.Close();
             }
+            return resultado;
         }
-        public static void Delete(int id)
+        
+        public static bool Delete(int id)
         {
+            int numeroDeRows;
+            bool resultado = false;
+
             string queryDelete = "DELETE FROM Producto WHERE Id = @id";
 
             using (SqlConnection sqlConnection = new SqlConnection(connectionString))
@@ -139,10 +149,15 @@ namespace ProyectoFinal.Repository
                 {
                     SqlParameter idParameter = new SqlParameter("id", System.Data.SqlDbType.BigInt) { Value = id };
                     sqlCommand.Parameters.Add(idParameter);
-                    sqlCommand.ExecuteNonQuery();
+                    numeroDeRows = sqlCommand.ExecuteNonQuery();
+                    if (numeroDeRows > 0)
+                    {
+                        resultado = true;
+                    }
                 }
                 sqlConnection.Close();
             }
+            return resultado;
         }
     }
 }
