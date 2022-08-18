@@ -6,11 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ProyectoFinal.Controllers
 {
-    [Route("[Controller]")]
     [ApiController]
+    //[Route("[Controller]")]
     public class UsuarioController : ControllerBase
     {
-        [HttpGet("{nombreUsuario}/{contraseña}")]
+        [HttpGet]
+        [Route("api/usuario/{nombreUsuario}/{contraseña}")]
         public bool GetOneByUsernameAndPassword(string nombreUsuario,string contraseña)
         {
             bool resultado = false;
@@ -26,6 +27,7 @@ namespace ProyectoFinal.Controllers
         }
 
         [HttpPost]
+        [Route("api/usuario/create")]
         public bool Create([FromBody] PostUsuario usuario)
         {
             bool resultado = false;
@@ -46,7 +48,9 @@ namespace ProyectoFinal.Controllers
             }
             return resultado;
         }
+        
         [HttpPut]
+        [Route("api/usuario/update")]
         public bool Update([FromBody]PutUsuario usuario)
         {
             bool resultado = false;
@@ -71,7 +75,9 @@ namespace ProyectoFinal.Controllers
 
             return resultado;
         }
+        
         [HttpDelete]
+        [Route("api/usuario/delete")]
         public bool Delete(int id)
         {
             bool resultado = false;
