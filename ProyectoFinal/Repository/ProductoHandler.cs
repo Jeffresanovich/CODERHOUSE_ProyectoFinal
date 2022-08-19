@@ -67,7 +67,7 @@ namespace ProyectoFinal.Repository
                 sqlConnection.Close();
             }
             return producto;
-        }
+        }     
         private static Producto GetDataFromDataBase(Producto producto, SqlDataReader dataReader)
         {
             producto.Id = Convert.ToInt32(dataReader["Id"]);

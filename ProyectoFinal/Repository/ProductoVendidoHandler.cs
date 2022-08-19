@@ -89,7 +89,7 @@ namespace ProyectoFinal.Repository
                                 "SET Stock=@stock, " +
                                     "IdProducto=@idProducto, " +
                                     "IdVenta=@idVenta, " +
-                                "WHERE = Id = @id";
+                                "WHERE Id = @id";
 
             CreateUpdateConnection(productoVendido, queryUpdate);
         }

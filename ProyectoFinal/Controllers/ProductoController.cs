@@ -22,7 +22,7 @@ namespace ProyectoFinal.Controllers
         {
             return ProductoHandler.GetOneById(id);
         }
-
+               
         [HttpPost]
         [Route("api/producto")]
         public bool Create([FromBody] PostProducto producto)
@@ -74,7 +74,7 @@ namespace ProyectoFinal.Controllers
         }
         
         [HttpDelete]
-        [Route("api/producto")]
+        [Route("api/producto/{id}")]
         public bool Delete(int id)
         {
             bool resultado = false;

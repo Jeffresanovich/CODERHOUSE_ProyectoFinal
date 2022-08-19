@@ -1,4 +1,4 @@
-using ProyectoFinal.Controllers;
+//using ProyectoFinal.Controllers;
 using ProyectoFinal.Controllers.DTOS;
 using ProyectoFinal.Model;
 using ProyectoFinal.Repository;
@@ -27,7 +27,7 @@ namespace ProyectoFinal.Controllers
         }
 
         [HttpPost]
-        [Route("api/usuario/create")]
+        [Route("api/usuario")]
         public bool Create([FromBody] PostUsuario usuario)
         {
             bool resultado = false;
@@ -50,7 +50,7 @@ namespace ProyectoFinal.Controllers
         }
         
         [HttpPut]
-        [Route("api/usuario/update")]
+        [Route("api/usuario")]
         public bool Update([FromBody]PutUsuario usuario)
         {
             bool resultado = false;
@@ -77,7 +77,7 @@ namespace ProyectoFinal.Controllers
         }
         
         [HttpDelete]
-        [Route("api/usuario/delete")]
+        [Route("api/usuario")]
         public bool Delete(int id)
         {
             bool resultado = false;
