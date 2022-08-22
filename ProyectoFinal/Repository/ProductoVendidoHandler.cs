@@ -114,17 +114,17 @@ namespace ProyectoFinal.Repository
         {
             string queryDeleteProducto = "DELETE FROM ProductoVendido WHERE IdProducto = @idProducto";
 
-            DeleteByIdVentaOProducto(idProducto, queryDeleteProducto);
+            DeleteByIdVentaOrProducto(idProducto, queryDeleteProducto);
 
         }
         public static void DeleteByIdVenta(int idVenta)
         {
             string queryDeleteVenta = "DELETE FROM ProductoVendido WHERE IdVenta = @id";
 
-            DeleteByIdVentaOProducto(idVenta, queryDeleteVenta);
+            DeleteByIdVentaOrProducto(idVenta, queryDeleteVenta);
 
         }
-        private static void DeleteByIdVentaOProducto(int id, string queryDelete)
+        private static void DeleteByIdVentaOrProducto(int id, string queryDelete)
         {
 
             using (SqlConnection sqlConnection = new SqlConnection(connectionString))

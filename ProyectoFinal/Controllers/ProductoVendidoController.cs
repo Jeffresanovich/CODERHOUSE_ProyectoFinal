@@ -14,13 +14,22 @@ namespace ProyectoFinal.Controller
         {
             bool resultado = false;
             try
-            {              
+            {
                     resultado = ProductoVendidoHandler.Create(new ProductoVendido
                     {
                         Stock = productoVendido.Stock,
                         IdProducto = productoVendido.IdProducto,
                         IdVenta = productoVendido.IdVenta
-                    });                  
+                    });
+
+                //DESPUES DE REGISTAR EL LA VENTA,
+                //SE PROCEDE A DESCONTAR EL STOCK DEL PRODUCTO EN DB:
+                Producto productoAlmacenado = ProductoHandler.GetOneById(productoVendido.IdProducto);
+                productoAlmacenado.Stock = productoAlmacenado.Stock-productoVendido.Stock;
+                ProductoHandler.Update(productoAlmacenado);
+
+
+
             }
             catch (Exception ex)
             {
