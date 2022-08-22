@@ -4,12 +4,12 @@ namespace ProyectoFinal.Controllers
 {
     [ApiController]
     public class NombreLocalController : ControllerBase
-    {
+    {        
         [HttpGet]
-        [Route("/api/Nombre")]
+        [Route("/api/Nombre")]      //Trae Nombre del Local
         public string GetNombreLocal()
         {
-            return "Tienda Digital";
-        }
+            return "Tienda Digital Ecomerce";
+        }        
     }
 }

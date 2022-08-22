@@ -67,7 +67,41 @@ namespace ProyectoFinal.Repository
                 sqlConnection.Close();
             }
             return producto;
-        }     
+        }
+        public static List<Producto> GetOneByIdUsuario(int idUsuario)
+        {
+            List<Producto> productos = new List<Producto>();          
+
+            string querySelect = "SELECT * FROM Producto WHERE IdUsuario = @idUsuario";
+
+            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+            {
+                sqlConnection.Open();
+                using (SqlCommand sqlCommand = new SqlCommand(querySelect, sqlConnection))
+                {
+                    SqlParameter idUsuarioParameter = new SqlParameter("idUsuario", System.Data.SqlDbType.BigInt) { Value = idUsuario };
+                    sqlCommand.Parameters.Add(idUsuarioParameter);
+
+                    using (SqlDataReader dataReader = sqlCommand.ExecuteReader())
+                    {
+                        if (dataReader.HasRows)
+                        {
+                            while (dataReader.Read())
+                            {
+                                Producto producto = new Producto();
+
+                                GetDataFromDataBase(producto, dataReader);
+
+                                productos.Add(producto);
+                            }
+                        }
+                    }
+                }
+                sqlConnection.Close();
+            }
+            return productos;
+        }
+
         private static Producto GetDataFromDataBase(Producto producto, SqlDataReader dataReader)
         {
             producto.Id = Convert.ToInt32(dataReader["Id"]);

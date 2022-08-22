@@ -8,10 +8,27 @@ namespace ProyectoFinal.Controller
     public class ProductoVendidoController : ControllerBase
     {
         [HttpGet]
-        [Route("api/productoVendido/{id}")]
+        [Route("api/ProductoVendido/{id}")]
         public List<ProductoVendido> GetAll()
         {
             return ProductoVendidoHandler.GetAll();
         }
+
+        [HttpPost]
+        [Route("api/ProductoVendido")]
+        public bool InsertWithComment([FromBody]int stock, int idProducto, string comentario)
+        {
+            bool resultado = false;
+            try
+            {
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error Message: " + ex.Message);
+            }
+            return resultado;
+        }
+
     }
 }

@@ -132,5 +132,21 @@ namespace ProyectoFinal.Repository
                 sqlConnection.Close();
             }
         }
+        public static void DeleteByIdProducto(int idProducto)
+        {
+            string queryDelete = "DELETE FROM ProductoVendido WHERE IdProducto = @idProducto";
+
+            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+            {
+                sqlConnection.Open();
+                using (SqlCommand sqlCommand = new SqlCommand(queryDelete, sqlConnection))
+                {
+                    SqlParameter idProductoParameter = new SqlParameter("idProducto", System.Data.SqlDbType.BigInt) { Value = idProducto };
+                    sqlCommand.Parameters.Add(idProductoParameter);
+                    sqlCommand.ExecuteNonQuery();
+                }
+                sqlConnection.Close();
+            }
+        }
     }
 }

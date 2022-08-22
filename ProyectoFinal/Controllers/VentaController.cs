@@ -1,6 +1,7 @@
 using ProyectoFinal.Model;
 using ProyectoFinal.Repository;
 using Microsoft.AspNetCore.Mvc;
+using ProyectoFinal.Controllers.DTOS;
 
 namespace ProyectoFinal.Controller
 {
@@ -8,10 +9,17 @@ namespace ProyectoFinal.Controller
     [ApiController]
     public class VentaController : ControllerBase
     {
-        [HttpGet]
-        public List<Venta> GetAll()
+        [HttpPost]
+        public bool Insert([FromBody] PostVenta venta)
         {
-            return VentaHandler.GetAll();
+            bool resultado = false;
+            
+            resultado = VentaHandler.Create(new Venta 
+            {
+                Comentarios = venta.Comentarios
+            });
+
+            return resultado;
         }
     }
 }
