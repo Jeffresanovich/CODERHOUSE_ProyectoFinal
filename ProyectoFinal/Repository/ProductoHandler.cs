@@ -38,6 +38,7 @@ namespace ProyectoFinal.Repository
             }
             return productos;
         }
+        
         public static Producto GetOneById(int id)
         {
             Producto producto = new Producto();

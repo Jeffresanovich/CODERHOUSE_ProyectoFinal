@@ -74,32 +74,19 @@ namespace ProyectoFinal.Repository
             return productoVendido;
         }
 
-        public static void Create(ProductoVendido productoVendido)
+        public static bool Create(ProductoVendido productoVendido)
         {
+            int numeroDeRows;
+            bool resultado = false;
+
             string queryCreate = "INSERT INTO ProductoVendido (Stock,IdProducto,IdVenta) " +
                                  "VALUES (@stock,@idProducto,@idVenta)";
 
-            CreateUpdateConnection(productoVendido, queryCreate);
-        }
-        public static void Update(int id)
-        {
-            ProductoVendido productoVendido = GetOneById(id);
-
-            string queryUpdate = "UPDATE ProductoVendido " +
-                                "SET Stock=@stock, " +
-                                    "IdProducto=@idProducto, " +
-                                    "IdVenta=@idVenta, " +
-                                "WHERE Id = @id";
-
-            CreateUpdateConnection(productoVendido, queryUpdate);
-        }
-        private static void CreateUpdateConnection(ProductoVendido productoVendido, string query)
-        {
             using (SqlConnection sqlConnection = new SqlConnection(connectionString))
             {
                 sqlConnection.Open();
 
-                using (SqlCommand sqlCommand = new SqlCommand(query, sqlConnection))
+                using (SqlCommand sqlCommand = new SqlCommand(queryCreate, sqlConnection))
                 {
                     SqlParameter idParameter = new SqlParameter("id", System.Data.SqlDbType.BigInt) { Value = productoVendido.Id };
                     SqlParameter stockParameter = new SqlParameter("stock", System.Data.SqlDbType.Int) { Value = productoVendido.Stock };
@@ -111,38 +98,42 @@ namespace ProyectoFinal.Repository
                     sqlCommand.Parameters.Add(idProductoParameter);
                     sqlCommand.Parameters.Add(idVentaParameter);
 
-                    sqlCommand.ExecuteNonQuery();
-                }
-                sqlConnection.Close();
-            }
-        }
-        public static void Delete(int id)
-        {
-            string queryDelete = "DELETE FROM ProductoVendido WHERE Id = @id";
+                    numeroDeRows = sqlCommand.ExecuteNonQuery();
 
-            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
-            {
-                sqlConnection.Open();
-                using (SqlCommand sqlCommand = new SqlCommand(queryDelete, sqlConnection))
-                {
-                    SqlParameter idParameter = new SqlParameter("id", System.Data.SqlDbType.BigInt) { Value = id };
-                    sqlCommand.Parameters.Add(idParameter);
-                    sqlCommand.ExecuteNonQuery();
+                    if (numeroDeRows > 0)
+                    {
+                        resultado = true;
+                    }
                 }
                 sqlConnection.Close();
             }
+            return resultado;
         }
+
         public static void DeleteByIdProducto(int idProducto)
         {
-            string queryDelete = "DELETE FROM ProductoVendido WHERE IdProducto = @idProducto";
+            string queryDeleteProducto = "DELETE FROM ProductoVendido WHERE IdProducto = @idProducto";
+
+            DeleteByIdVentaOProducto(idProducto, queryDeleteProducto);
+
+        }
+        public static void DeleteByIdVenta(int idVenta)
+        {
+            string queryDeleteVenta = "DELETE FROM ProductoVendido WHERE IdVenta = @id";
+
+            DeleteByIdVentaOProducto(idVenta, queryDeleteVenta);
+
+        }
+        private static void DeleteByIdVentaOProducto(int id, string queryDelete)
+        {
 
             using (SqlConnection sqlConnection = new SqlConnection(connectionString))
             {
                 sqlConnection.Open();
                 using (SqlCommand sqlCommand = new SqlCommand(queryDelete, sqlConnection))
                 {
-                    SqlParameter idProductoParameter = new SqlParameter("idProducto", System.Data.SqlDbType.BigInt) { Value = idProducto };
-                    sqlCommand.Parameters.Add(idProductoParameter);
+                    SqlParameter idVentaOProductoParameter = new SqlParameter("id", System.Data.SqlDbType.BigInt) { Value = id };
+                    sqlCommand.Parameters.Add(idVentaOProductoParameter);
                     sqlCommand.ExecuteNonQuery();
                 }
                 sqlConnection.Close();

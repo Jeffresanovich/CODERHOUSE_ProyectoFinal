@@ -5,12 +5,13 @@ using ProyectoFinal.Controllers.DTOS;
 
 namespace ProyectoFinal.Controller
 {
-    [Route("[Controller]")]
     [ApiController]
+    //[Route("[Controller]")]
     public class VentaController : ControllerBase
     {
         [HttpPost]
-        public bool Insert([FromBody] PostVenta venta)
+        [Route("api/Venta")]    //Carga Venta
+        public bool Create([FromBody] PostVenta venta)
         {
             bool resultado = false;
             

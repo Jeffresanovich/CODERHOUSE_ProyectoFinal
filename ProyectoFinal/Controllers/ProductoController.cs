@@ -9,15 +9,8 @@ namespace ProyectoFinal.Controllers
     //[Route("[Controller]")]
     public class ProductoController : ControllerBase
     {
-        [HttpGet]//NO ESTA EN LA CONSIGNA: Trae UN Producto
-        [Route("api/Producto/{idUsuario}")]
-        public List<Producto> GetOneByIdUsuario(int idUsuario)
-        {
-            return ProductoHandler.GetOneByIdUsuario(idUsuario);
-        }
-
         [HttpGet]
-        [Route("api/Producto/")]    //Trae Productos
+        [Route("api/Producto")]     //Trae TODOS los productos
         public List<Producto> GetAll()
         {
             return ProductoHandler.GetAll();
