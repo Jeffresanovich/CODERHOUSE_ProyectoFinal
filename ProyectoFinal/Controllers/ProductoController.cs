@@ -10,21 +10,14 @@ namespace ProyectoFinal.Controllers
     public class ProductoController : ControllerBase
     {
         [HttpGet]
-        [Route("api/producto")]
+        [Route("api/Producto")]     //Trae TODOS los productos
         public List<Producto> GetAll()
         {
             return ProductoHandler.GetAll();
         }
 
-        [HttpGet]
-        [Route("api/producto/{id}")]
-        public Producto GetOneById(int id)
-        {
-            return ProductoHandler.GetOneById(id);
-        }
-
         [HttpPost]
-        [Route("api/producto")]
+        [Route("api/Producto")]     //Crea producto
         public bool Create([FromBody] PostProducto producto)
         {
             bool resultado = false;
@@ -47,7 +40,7 @@ namespace ProyectoFinal.Controllers
         }
         
         [HttpPut]
-        [Route("api/producto")]
+        [Route("api/Producto")]     //Modifica producto
         public bool Update([FromBody] PutProducto producto)  
         {
             bool resultado = false;
@@ -74,12 +67,15 @@ namespace ProyectoFinal.Controllers
         }
         
         [HttpDelete]
-        [Route("api/producto")]
+        [Route("api/Producto/{id}")]    //Elimina producto
         public bool Delete(int id)
         {
             bool resultado = false;
             try
             {
+                //PRIMERO ELIMINO EL PRODUCTO VENDIDO
+                ProductoVendidoHandler.DeleteByIdProducto(id);
+                //LUEGO ELIMINO EL PRODUCTO
                 resultado = ProductoHandler.Delete(id);
 
             }

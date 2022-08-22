@@ -7,47 +7,7 @@ namespace ProyectoFinal.Repository
     {
         public const string connectionString = @"Server=JEFF-PC;Database=SistemaGestion;Trusted_Connection=True";
 
-        public static Usuario GetOneById(int id)
-        {
-            //TRAE UN SOLO USUARIO POR ID: "Traer Usuario"
-
-            Usuario usuario = new Usuario();
-
-            string querySelect = "SELECT * FROM Usuario WHERE Id = @id";
-
-            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
-            {
-                sqlConnection.Open();
-                using (SqlCommand sqlCommand = new SqlCommand(querySelect, sqlConnection))
-                {
-                    SqlParameter idParameter = new SqlParameter();
-                    idParameter.ParameterName = "id";
-                    idParameter.SqlDbType = System.Data.SqlDbType.BigInt;
-                    idParameter.Value = id;
-
-                    sqlCommand.Parameters.Add(idParameter);
-
-                    using (SqlDataReader dataReader = sqlCommand.ExecuteReader())
-                    {
-                        if (dataReader.HasRows)
-                        {
-                            while (dataReader.Read())
-                            {
-                                usuario.Id = Convert.ToInt32(dataReader["Id"]);
-                                usuario.Nombre = dataReader["Nombre"].ToString();
-                                usuario.Apellido = dataReader["Apellido"].ToString();
-                                usuario.NombreUsuario = dataReader["NombreUsuario"].ToString();
-                                usuario.Contraseña = "Contraseña no disponible para compartir";//dataReader["Contraseña"].ToString();
-                                usuario.Mail = dataReader["Mail"].ToString();
-                            }
-                        }
-                    }
-                }
-                sqlConnection.Close();
-            }
-            return usuario;
-        }
-        public static bool GetOneByUsernameAndPassword(string username, string password)
+        public static bool LoginByUsernameAndPassword(string username, string password)
         {
             //DEVUELVE TRUE SI COINCIDE USUARIO Y CONTRASEÑA: "Inicio de sesión"
 
@@ -78,7 +38,42 @@ namespace ProyectoFinal.Repository
             }
             return resultado;
         }
+        public static Usuario GetOneByUsername(string username)
+        {
+            Usuario usuario = new Usuario();
 
+            string querySelect = "SELECT * FROM Usuario WHERE NombreUsuario = @username";
+                       
+            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+            {
+                sqlConnection.Open();
+                using (SqlCommand sqlCommand = new SqlCommand(querySelect, sqlConnection))
+                {
+                    SqlParameter usernameParameter = new SqlParameter("username", System.Data.SqlDbType.VarChar) { Value = username };
+
+                    sqlCommand.Parameters.Add(usernameParameter);
+
+                    using (SqlDataReader dataReader = sqlCommand.ExecuteReader())
+                    {
+                        if (dataReader.HasRows)
+                        {
+                            while (dataReader.Read())
+                            {
+                                usuario.Id = Convert.ToInt32(dataReader["Id"]);
+                                usuario.Nombre = dataReader["Nombre"].ToString();
+                                usuario.Apellido = dataReader["Apellido"].ToString();
+                                usuario.NombreUsuario = dataReader["NombreUsuario"].ToString();
+                                usuario.Contraseña = dataReader["Contraseña"].ToString();
+                                usuario.Mail = dataReader["Mail"].ToString();
+                            }
+                        }
+                    }
+                }
+                sqlConnection.Close();
+            }
+            return usuario;
+        }      
+        
         public static bool Create(Usuario usuario)
         {
             string queryCreate = "INSERT INTO Usuario (Nombre,Apellido,NombreUsuario,Contraseña,Mail) " +

@@ -1,17 +1,26 @@
 using ProyectoFinal.Model;
 using ProyectoFinal.Repository;
 using Microsoft.AspNetCore.Mvc;
+using ProyectoFinal.Controllers.DTOS;
 
 namespace ProyectoFinal.Controller
 {
-    [Route("[Controller]")]
     [ApiController]
+    //[Route("[Controller]")]
     public class VentaController : ControllerBase
     {
-        [HttpGet]
-        public List<Venta> GetAll()
+        [HttpPost]
+        [Route("api/Venta")]    //Carga Venta
+        public bool Create([FromBody] PostVenta venta)
         {
-            return VentaHandler.GetAll();
+            bool resultado = false;
+            
+            resultado = VentaHandler.Create(new Venta 
+            {
+                Comentarios = venta.Comentarios
+            });
+
+            return resultado;
         }
     }
 }
