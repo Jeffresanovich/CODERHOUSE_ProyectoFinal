@@ -1,17 +1,20 @@
-//using ProyectoFinal.Controllers;
 using ProyectoFinal.Controllers.DTOS;
 using ProyectoFinal.Model;
 using ProyectoFinal.Repository;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace ProyectoFinal.Controllers
 {
     [ApiController]
-    //[Route("[Controller]")]
+    [Route("api/[Controller]")]
     public class UsuarioController : ControllerBase
     {
-        [HttpGet]
-        [Route("api/Usuario/{nombreUsuario}/{contraseña}")]     //Inicio de sesión
+        //Inicio de sesión: Se le pasa como parámetro el nombre del usuario y
+        //la contraseña, buscar en la base de datos si el usuario existe y
+        //si coincide con la contraseña lo devuelve, caso contrario devuelve error.
+
+        [HttpGet("{nombreUsuario}/{contraseña}")]
         public bool LoginByUsernameAndPassword(string nombreUsuario,string contraseña)
         {
             bool resultado = false;
@@ -26,15 +29,24 @@ namespace ProyectoFinal.Controllers
             return resultado;
         }
 
-        [HttpGet]
-        [Route("api/Usuario/{nombreUsuario}")]      //Trae Usuario
+        //Traer Usuario: Debe recibir un nombre del usuario, buscarlo en la base de datos
+        //y devolver todos sus datos(Esto se hará para la página en la que se mostrara
+        //los datos del usuario y en la página para modificar sus datos).
+
+        [HttpGet("{nombreUsuario}")]
         public Usuario GetOneByUsername(string nombreUsuario)
         {
             return UsuarioHandler.GetOneByUsername(nombreUsuario);
         }
 
+
+        //Crear usuario: Recibe como parámetro un json con todos los datos cargados y
+        //debe dar un alta inmediata del usuario con los mismos validando que
+        //todos los datos obligatorios estén cargados, por el contrario devolverá error
+        //(No se puede repetir el nombre de usuario. Pista...se puede usar el
+        //"Traer Usuario" si se quiere reutilizar para corroborar si el nombre ya existe).
+
         [HttpPost]
-        [Route("api/Usuario")]      //Crea usuario
         public bool Create([FromBody] PostUsuario usuario)
         {
             bool resultado = false;
@@ -56,8 +68,10 @@ namespace ProyectoFinal.Controllers
             return resultado;
         }
 
+        //Modificar usuario: Se recibirán todos los datos del usuario por un json y
+        //se deberá modificar el mismo con los datos nuevos(No crear uno nuevo).
+
         [HttpPut]
-        [Route("api/Usuario")]      //Modifica usuario
         public bool Update([FromBody]PutUsuario usuario)
         {
             bool resultado = false;
@@ -83,8 +97,10 @@ namespace ProyectoFinal.Controllers
             return resultado;
         }
         
-        [HttpDelete]        //Elimina Usuario
-        [Route("api/Usuario")]
+        //Eliminar Usuario: Recibe el ID del usuario a eliminar y
+        //lo deberá eliminar de la base de datos.
+
+        [HttpDelete]
         public bool Delete(int id)
         {
             bool resultado = false;

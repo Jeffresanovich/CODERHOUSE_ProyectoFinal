@@ -6,10 +6,15 @@ using ProyectoFinal.Controllers.DTOS;
 namespace ProyectoFinal.Controller
 {
     [ApiController]
+    [Route("api/[Controller]")]
     public class ProductoVendidoController : ControllerBase
     {
+        //Venta: Recibe una venta con número de id 0 y dentro una lista de productos
+        //por json, debe cargarlos en la base de ProductosVendidos uno por uno por un
+        //lado, cargar la venta propiamente dicha a la base de ventas y
+        //descontar el stock del producto por el otro.
+
          [HttpPost]
-        [Route("api/ProductoVendido")]  //  Carga Venta
         public bool Create([FromBody] PostProductoVendido productoVendido)
         {
             bool resultado = false;
