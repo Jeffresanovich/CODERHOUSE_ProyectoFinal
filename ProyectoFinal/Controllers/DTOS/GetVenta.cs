@@ -1,6 +1,6 @@
 ﻿namespace ProyectoFinal.Controllers.DTOS
 {
-    public class GetVentas
+    public class GetVenta
     {
         public int Id { set; get; }
         public string Comentarios { set; get; }

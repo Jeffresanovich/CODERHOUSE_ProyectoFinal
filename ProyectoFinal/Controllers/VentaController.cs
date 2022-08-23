@@ -6,11 +6,15 @@ using ProyectoFinal.Controllers.DTOS;
 namespace ProyectoFinal.Controller
 {
     [ApiController]
-    //[Route("[Controller]")]
+    [Route("api/[Controller]")]
     public class VentaController : ControllerBase
     {
+        //Venta: Recibe una venta con número de id 0 y dentro una lista
+        //de productos por json, debe cargarlos en la base de ProductosVendidos
+        //uno por uno por un lado, cargar la venta propiamente dicha a la base de
+        //ventas y descontar el stock del producto por el otro.
+        
         [HttpPost]
-        [Route("api/Venta")]    //Carga Venta
         public bool Create([FromBody] PostVenta venta)
         {
             bool resultado = false;
@@ -21,6 +25,14 @@ namespace ProyectoFinal.Controller
             });
 
             return resultado;
+        }
+
+        //Traer Ventas: Debe traer todas las ventas de la base,
+        //incluyendo sus Productos, cuya información está en ProductosVendidos.
+        [HttpGet]
+        public List<GetVenta> GetAll()
+        {
+            return new List<GetVenta>();
         }
     }
 }
