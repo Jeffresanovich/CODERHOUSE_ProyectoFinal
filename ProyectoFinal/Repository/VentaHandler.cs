@@ -74,5 +74,46 @@ namespace ProyectoFinal.Repository
             }
             return listaVentasPersonalizada;
         }
+        
+        public static List<GetVenta> GetById(int idVenta)
+        {
+            List<GetVenta> listaVentasPersonalizada = new List<GetVenta>();
+
+            string querySelect = "SELECT Venta.Id,Comentarios,Descripciones,Costo,PrecioVenta,ProductoVendido.Stock, NombreUsuario FROM (((ProductoVendido INNER JOIN Producto ON ProductoVendido.IdProducto = Producto.Id) INNER JOIN Venta ON ProductoVendido.IdVenta = Venta.Id)) INNER JOIN Usuario ON Producto.IdUsuario = Usuario.Id WHERE Venta.Id = @idVenta";
+
+            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+            {
+                sqlConnection.Open();
+
+                using (SqlCommand sqlCommand = new SqlCommand(querySelect, sqlConnection))
+                {
+                    SqlParameter idVentaParameter = new SqlParameter("idVenta", System.Data.SqlDbType.BigInt) { Value = idVenta };
+                    sqlCommand.Parameters.Add(idVentaParameter);
+
+                    using (SqlDataReader dataReader = sqlCommand.ExecuteReader())
+                    {
+                        if (dataReader.HasRows)
+                        {
+                            while (dataReader.Read())
+                            {
+                                GetVenta venta = new GetVenta();
+
+                                venta.Id = Convert.ToInt32(dataReader["Id"]);
+                                venta.Comentarios = dataReader["Comentarios"].ToString();
+                                venta.Descripciones = dataReader["Descripciones"].ToString();
+                                venta.Costo = Convert.ToDouble(dataReader["Costo"]);
+                                venta.PrecioVenta = Convert.ToDouble(dataReader["PrecioVenta"]);
+                                venta.Stock = Convert.ToInt32(dataReader["Stock"]);
+                                venta.NombreUsuario = dataReader["NombreUsuario"].ToString();
+
+                                listaVentasPersonalizada.Add(venta);
+                            }
+                        }
+                    }
+                }
+                sqlConnection.Close();
+            }
+            return listaVentasPersonalizada;
+        }
     }
 }

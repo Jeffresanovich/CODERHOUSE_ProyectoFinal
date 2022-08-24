@@ -2,7 +2,6 @@ using ProyectoFinal.Model;
 using ProyectoFinal.Repository;
 using Microsoft.AspNetCore.Mvc;
 using ProyectoFinal.Controllers.DTOS;
-using System.Collections.Generic;
 
 namespace ProyectoFinal.Controller
 {
@@ -40,6 +39,23 @@ namespace ProyectoFinal.Controller
                 repuesta = VentaHandler.GetAll();
             }
             catch(Exception ex)
+            {
+                Console.WriteLine("ERROR MESSAGE: " + ex.Message);
+            }
+
+            return repuesta;
+        }
+
+        [HttpGet ("{idVenta}")]
+        public List<GetVenta> GetById(int idVenta)
+        {
+            List<GetVenta> repuesta = new List<GetVenta>();
+
+            try
+            {
+                repuesta = VentaHandler.GetById(idVenta);
+            }
+            catch (Exception ex)
             {
                 Console.WriteLine("ERROR MESSAGE: " + ex.Message);
             }
