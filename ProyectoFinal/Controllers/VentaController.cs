@@ -32,7 +32,35 @@ namespace ProyectoFinal.Controller
         [HttpGet]
         public List<GetVenta> GetAll()
         {
-            return new List<GetVenta>();
+            List<GetVenta> repuesta = new List<GetVenta>();
+
+            try
+            {
+                repuesta = VentaHandler.GetAll();
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("ERROR MESSAGE: " + ex.Message);
+            }
+
+            return repuesta;
+        }
+
+        [HttpGet ("{idVenta}")]
+        public List<GetVenta> GetById(int idVenta)
+        {
+            List<GetVenta> repuesta = new List<GetVenta>();
+
+            try
+            {
+                repuesta = VentaHandler.GetById(idVenta);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("ERROR MESSAGE: " + ex.Message);
+            }
+
+            return repuesta;
         }
     }
 }

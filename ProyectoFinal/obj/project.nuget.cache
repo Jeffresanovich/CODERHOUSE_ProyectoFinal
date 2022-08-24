@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "9NTMUTRbXtfSO+YIm5lL67dmwRdqL76DZTpxD7oLZWlXPGC9pNOMlcTESbTeo+d55d1rQ3+rv0bT2jG9Yt6JqQ==",
+  "dgSpecHash": "PHTLKdhRpFUIiIAIcvs/wvO1aknsp7o/sbZZgAqqedyF/eYcdGeE1eGA1pz2PGlRDgqc29RxDVKvN2OrOF1Bbg==",
   "success": true,
-  "projectFilePath": "C:\\REPOSITORIOS\\CODERHOUSE_ProyectoFinal\\ProyectoFinal\\ProyectoFinal.csproj",
+  "projectFilePath": "C:\\REPOSITORIOS\\Nueva carpeta\\ProyectoFinal\\ProyectoFinal.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Jeff\\.nuget\\packages\\microsoft.extensions.apidescription.server\\3.0.0\\microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
     "C:\\Users\\Jeff\\.nuget\\packages\\microsoft.netcore.platforms\\3.1.0\\microsoft.netcore.platforms.3.1.0.nupkg.sha512",
