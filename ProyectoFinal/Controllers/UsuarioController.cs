@@ -3,6 +3,7 @@ using ProyectoFinal.Model;
 using ProyectoFinal.Repository;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Collections;
 
 namespace ProyectoFinal.Controllers
 {
@@ -29,9 +30,9 @@ namespace ProyectoFinal.Controllers
             return resultado;
         }
 
-        //Traer Usuario: Debe recibir un nombre del usuario, buscarlo en la base de datos
-        //y devolver todos sus datos(Esto se hará para la página en la que se mostrara
-        //los datos del usuario y en la página para modificar sus datos).
+        //Traer Usuario: Debe recibir un nombre del usuario, buscarlo en la base de datos y
+        //devolver todos sus datos(Esto se hará para la página en la que se mostrara los
+        //datos del usuario y en la página para modificar sus datos).
 
         [HttpGet("{nombreUsuario}")]
         public Usuario GetOneByUsername(string nombreUsuario)
@@ -40,11 +41,12 @@ namespace ProyectoFinal.Controllers
         }
 
 
-        //Crear usuario: Recibe como parámetro un json con todos los datos cargados y
-        //debe dar un alta inmediata del usuario con los mismos validando que
-        //todos los datos obligatorios estén cargados, por el contrario devolverá error
-        //(No se puede repetir el nombre de usuario. Pista...se puede usar el
-        //"Traer Usuario" si se quiere reutilizar para corroborar si el nombre ya existe).
+        //Crear usuario: Recibe como parámetro un JSON con todos los datos
+        //cargados y debe dar un alta inmediata del usuario con los mismos
+        //validando que todos los datos obligatorios estén cargados, por el
+        //contrario devolverá error(No se puede repetir el nombre de usuario.
+        //Pista...se puede usar el "Traer Usuario" si se quiere reutilizar para
+        //corroborar si el nombre ya existe).
 
         [HttpPost]
         public bool Create([FromBody] PostUsuario usuario)
@@ -68,7 +70,7 @@ namespace ProyectoFinal.Controllers
             return resultado;
         }
 
-        //Modificar usuario: Se recibirán todos los datos del usuario por un json y
+        //Modificar usuario: Se recibirán todos los datos del usuario por un JSON y
         //se deberá modificar el mismo con los datos nuevos(No crear uno nuevo).
 
         [HttpPut]

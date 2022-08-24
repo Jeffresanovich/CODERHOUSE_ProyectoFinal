@@ -18,7 +18,7 @@ namespace ProyectoFinal.Controllers
             return ProductoHandler.GetAll();
         }
 
-        //Crear producto: Recibe una lista de tareas por json, número de Id 0, 
+        //Crear producto: Recibe una lista de tareas por JSON, número de Id 0,
         //Descripción , costo, precio venta y stock.
 
         [HttpPost]
@@ -43,8 +43,8 @@ namespace ProyectoFinal.Controllers
             return resultado;
         }
         
-        //Modificar producto: Recibe un producto con su número de Id,
-        //debe modificarlo con la nueva información.
+        //Modificar producto: Recibe un producto con su número de Id, debe modificarlo con
+        //la nueva información.
 
         [HttpPut]
         public bool Update([FromBody] PutProducto producto)  
@@ -72,8 +72,8 @@ namespace ProyectoFinal.Controllers
             return resultado;
         }
                      
-        //Eliminar producto: Recibe el número de Id de un producto a eliminar
-        //y debe eliminarlo de la base de datos.
+        //Eliminar producto: Recibe el número de Id de un producto a eliminar y
+        //debe eliminarlo de la base de datos.
 
         [HttpDelete ("{id}")]
         public bool Delete(int id)

@@ -35,19 +35,20 @@ namespace ProyectoFinal.Repository
             }
             return productosVendidos;
         }
-        public static ProductoVendido GetOneById(int id)
+        public static List<ProductoVendido> GetByIdUsuario(int idUsuario)
         {
+            List<ProductoVendido> listaProductosVendidos = new List<ProductoVendido>();
             ProductoVendido productoVendido = new ProductoVendido();
 
-            string querySelect = "SELECT * FROM ProductoVendido WHERE Id = @id";
+            string querySelect = "SELECT * FROM ProductoVendido WHERE IdUsuario = @idUsuario";//MODIFICRA CONSULTA
 
             using (SqlConnection sqlConnection = new SqlConnection(connectionString))
             {
                 sqlConnection.Open();
                 using (SqlCommand sqlCommand = new SqlCommand(querySelect, sqlConnection))
                 {
-                    SqlParameter idParameter = new SqlParameter("id", System.Data.SqlDbType.BigInt) { Value = id };
-                    sqlCommand.Parameters.Add(idParameter);
+                    SqlParameter idUsuarioParameter = new SqlParameter("idUsuario", System.Data.SqlDbType.BigInt) { Value = idUsuario };
+                    sqlCommand.Parameters.Add(idUsuarioParameter);
 
                     using (SqlDataReader dataReader = sqlCommand.ExecuteReader())
                     {
@@ -56,13 +57,15 @@ namespace ProyectoFinal.Repository
                             while (dataReader.Read())
                             {
                                 productoVendido = GetDataFromDataBase(productoVendido, dataReader);
+
+                                listaProductosVendidos.Add(productoVendido);
                             }
                         }
                     }
                 }
                 sqlConnection.Close();
             }
-            return productoVendido;
+            return listaProductosVendidos;
         }
         private static ProductoVendido GetDataFromDataBase(ProductoVendido productoVendido, SqlDataReader dataReader)
         {

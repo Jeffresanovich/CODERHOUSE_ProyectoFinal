@@ -9,11 +9,11 @@ namespace ProyectoFinal.Controller
     [Route("api/[Controller]")]
     public class VentaController : ControllerBase
     {
-        //Venta: Recibe una venta con número de id 0 y dentro una lista
-        //de productos por json, debe cargarlos en la base de ProductosVendidos
-        //uno por uno por un lado, cargar la venta propiamente dicha a la base de
-        //ventas y descontar el stock del producto por el otro.
-        
+        //Cargar Venta: Recibe una lista de productos y el número de IdUsuario de quien la
+        //efectuó, primero cargar una nueva venta en la base de datos, luego debe cargar
+        //los productos recibidos en la base de ProductosVendidos uno por uno por un lado,
+        //y descontar el stock en la base de productos por el otro.
+
         [HttpPost]
         public bool Create([FromBody] PostVenta venta)
         {
@@ -26,6 +26,29 @@ namespace ProyectoFinal.Controller
 
             return resultado;
         }
+
+
+        //Eliminar Venta: Recibe una venta con su número de Id, debe buscar en la base de
+        //Productos Vendidos cuáles lo tienen eliminándolos, sumar el stock a los
+        //productos incluidos, y eliminar la venta de la base de datos.
+
+        [HttpDelete] //FALTA PROGRAMAR
+        public bool Delete(int id)
+        {
+            bool resultado = false;
+            try
+            {
+                resultado = UsuarioHandler.Delete(id);
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error Message: " + ex.Message);
+
+            }
+            return resultado;
+        }
+
 
         //Traer Ventas: Debe traer todas las ventas de la base,
         //incluyendo sus Productos, cuya información está en ProductosVendidos.
