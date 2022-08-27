@@ -8,6 +8,18 @@ namespace ProyectoFinal.Repository
     {
         public const string connectionString = @"Server=JEFF-PC;Database=SistemaGestion;Trusted_Connection=True";
 
+        //Metodo COMUN a los GET, para almacenar los datos de la Base de Datos... 
+        private static ProductoVendido GetDataFromDataBase(ProductoVendido productoVendido, SqlDataReader dataReader)
+        {
+            productoVendido.Id = Convert.ToInt32(dataReader["Id"]);
+            productoVendido.Stock = Convert.ToInt32(dataReader["Stock"]);
+            productoVendido.IdProducto = Convert.ToInt32(dataReader["IdProducto"]);
+            productoVendido.IdVenta = Convert.ToInt32(dataReader["IdVenta"]);
+
+            return productoVendido;
+        }
+        
+        //HACE JUSTAMENTE ESO...
         public static List<ProductoVendido> GetAll()
         {
             List<ProductoVendido> productosVendidos = new List<ProductoVendido>();
@@ -36,20 +48,22 @@ namespace ProyectoFinal.Repository
             }
             return productosVendidos;
         }
-        public static List<ProductoVendido> GetByIdUsuario(int idUsuario)
+               
+        //METODO USADO PARA TRAER TODOS LOS PRODUCTOS VENDIDOS DE UNA VENTA 
+        private static List<ProductoVendido> GetByIdVenta(int idVenta)
         {
             List<ProductoVendido> listaProductosVendidos = new List<ProductoVendido>();
             ProductoVendido productoVendido = new ProductoVendido();
 
-            string querySelect = "SELECT * FROM ProductoVendido WHERE IdUsuario = @idUsuario";//MODIFICRA CONSULTA
+            string querySelect = "SELECT * FROM ProductoVendido WHERE IdVenta = @idVenta";
 
             using (SqlConnection sqlConnection = new SqlConnection(connectionString))
             {
                 sqlConnection.Open();
                 using (SqlCommand sqlCommand = new SqlCommand(querySelect, sqlConnection))
                 {
-                    SqlParameter idUsuarioParameter = new SqlParameter("idUsuario", System.Data.SqlDbType.BigInt) { Value = idUsuario };
-                    sqlCommand.Parameters.Add(idUsuarioParameter);
+                    SqlParameter idVentaParameter = new SqlParameter("idVenta", System.Data.SqlDbType.BigInt) { Value = idVenta };
+                    sqlCommand.Parameters.Add(idVentaParameter);
 
                     using (SqlDataReader dataReader = sqlCommand.ExecuteReader())
                     {
@@ -58,7 +72,6 @@ namespace ProyectoFinal.Repository
                             while (dataReader.Read())
                             {
                                 productoVendido = GetDataFromDataBase(productoVendido, dataReader);
-
                                 listaProductosVendidos.Add(productoVendido);
                             }
                         }
@@ -68,16 +81,21 @@ namespace ProyectoFinal.Repository
             }
             return listaProductosVendidos;
         }
-        private static ProductoVendido GetDataFromDataBase(ProductoVendido productoVendido, SqlDataReader dataReader)
-        {
-            productoVendido.Id = Convert.ToInt32(dataReader["Id"]);
-            productoVendido.Stock = Convert.ToInt32(dataReader["Stock"]);
-            productoVendido.IdProducto = Convert.ToInt32(dataReader["IdProducto"]);
-            productoVendido.IdVenta = Convert.ToInt32(dataReader["IdVenta"]);
 
-            return productoVendido;
+        //Metodo COMUN para sumar (crear) y restar (borrar) a los
+        //productos vendidos de una venta...
+        private static void SumaORestaDeStock(bool restar, int idProducto, int stockVendido)
+        {
+            Producto productoAlmacenado = ProductoHandler.GetOneById(idProducto);
+
+            if (restar) productoAlmacenado.Stock = productoAlmacenado.Stock - stockVendido;
+            else productoAlmacenado.Stock = productoAlmacenado.Stock + stockVendido;
+
+            ProductoHandler.Update(productoAlmacenado);
+
         }
 
+        //PRIMERO CREA EL PRODUCTO VENDIDO Y LUEGO DESCUENTA EL STOCK
         public static bool Create(ProductoVendido productoVendido)
         {
             int numeroDeRows;
@@ -109,26 +127,34 @@ namespace ProyectoFinal.Repository
                 }
                 sqlConnection.Close();
             }
+
+            //AQUI SE PROCEDE A DESCONTAR EL PRODUCTO VENDIDO
+            //DEL STOCK DE PRODUCTO: true = RESTA  Y  false = SUMA
+            SumaORestaDeStock(true,productoVendido.IdProducto, productoVendido.Stock);         
+
             return resultado;
         }
-
-        public static void DeleteByIdProducto(int idProducto)
-        {
-            string queryDeleteProducto = "DELETE FROM ProductoVendido WHERE IdProducto = @id";
-
-            DeleteByIdVentaOrProducto(idProducto, queryDeleteProducto);
-
-        }
+        
+        //PRIMERO SUMA EL STOCK DEL PRODUCTO VENDIDO A CADA PRODUCTO
+        //Y LUEGO ELIMIMA LA VENTA
         public static void DeleteByIdVenta(int idVenta)
         {
             string queryDeleteVenta = "DELETE FROM ProductoVendido WHERE IdVenta = @id";
 
+            foreach (ProductoVendido productoVendido in GetByIdVenta(idVenta))
+            {
+                //AQUI SE PROCEDE A SUMAR EL PRODUCTO VENDIDO
+                //DEL STOCK DE PRODUCTO: true = RESTA  Y  false = SUMA
+                SumaORestaDeStock(false, productoVendido.IdProducto, productoVendido.Stock);
+            }
+
             DeleteByIdVentaOrProducto(idVenta, queryDeleteVenta);
 
         }
+
+        //Metodo COMUN para los DELETE anterior y siguiente...
         private static void DeleteByIdVentaOrProducto(int id, string queryDelete)
         {
-
             using (SqlConnection sqlConnection = new SqlConnection(connectionString))
             {
                 sqlConnection.Open();
@@ -140,6 +166,15 @@ namespace ProyectoFinal.Repository
                 }
                 sqlConnection.Close();
             }
+        }
+
+        //PARA PODER ELIMINAR UN PRODUCTO DE LA BASE DE DATOS
+        //PRIMERO HAY QUE ELIMINARLO LA VENTA ASOCIADA A ESTE
+        public static void DeleteByIdProducto(int idProducto)
+        {
+            string queryDeleteProducto = "DELETE FROM ProductoVendido WHERE IdProducto = @id";
+
+            DeleteByIdVentaOrProducto(idProducto, queryDeleteProducto);
         }
     }
 }

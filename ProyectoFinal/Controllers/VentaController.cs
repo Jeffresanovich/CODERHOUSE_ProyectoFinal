@@ -2,6 +2,7 @@ using ProyectoFinal.Model;
 using ProyectoFinal.Repository;
 using Microsoft.AspNetCore.Mvc;
 using ProyectoFinal.Controllers.DTOS;
+using Microsoft.VisualBasic;
 
 namespace ProyectoFinal.Controller
 {
@@ -19,7 +20,7 @@ namespace ProyectoFinal.Controller
         {
             string mensaje = "Venta NO registrada";
 
-            int idNuevaVenta = 6;
+            int idNuevaVenta = 2;
 
             idNuevaVenta = VentaHandler.Create(new Venta
             {
@@ -57,13 +58,13 @@ namespace ProyectoFinal.Controller
         //Productos Vendidos cuáles lo tienen eliminándolos, sumar el stock a los
         //productos incluidos, y eliminar la venta de la base de datos.
 
-        [HttpDelete] //FALTA PROGRAMAR
+        [HttpDelete]
         public bool Delete(int id)
         {
             bool resultado = false;
             try
             {
-                resultado = UsuarioHandler.Delete(id);
+                resultado = VentaHandler.Delete(id);
 
             }
             catch (Exception ex)
@@ -92,23 +93,18 @@ namespace ProyectoFinal.Controller
             }
 
             return repuesta;
-        }
+        }        
+        
 
-        [HttpGet ("{idVenta}")]
-        public List<GetVenta> GetById(int idVenta)
+        //Traer Productos Vendidos: Traer Todos los productos vendidos de un Usuario,
+        //cuya información está en su producto(Utilizar dentro de esta función el
+        //"Traer Productos" anteriormente hecho para saber que
+        //productosVendidos ir a buscar).
+
+        [HttpGet("{idUsuario}")]
+        public List<GetVenta> GetByIdUsuario(int idUsuario)
         {
-            List<GetVenta> repuesta = new List<GetVenta>();
-
-            try
-            {
-                repuesta = VentaHandler.GetById(idVenta);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("ERROR MESSAGE: " + ex.Message);
-            }
-
-            return repuesta;
-        }
+            return VentaHandler.GetByIdUsuario(idUsuario);
+        }        
     }
 }
