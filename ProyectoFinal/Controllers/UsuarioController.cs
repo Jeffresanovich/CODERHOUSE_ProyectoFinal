@@ -16,18 +16,19 @@ namespace ProyectoFinal.Controllers
         //si coincide con la contraseña lo devuelve, caso contrario devuelve error.
 
         [HttpGet("{nombreUsuario}/{contraseña}")]
-        public bool LoginByUsernameAndPassword(string nombreUsuario,string contraseña)
+        public string LoginByUsernameAndPassword(string nombreUsuario,string contraseña)
         {
-            bool resultado = false;
+            string mensaje = "Usuario o contraseña NO valido";
             try
             {
-                resultado = UsuarioHandler.LoginByUsernameAndPassword(nombreUsuario,contraseña);
+                bool resultado = UsuarioHandler.LoginByUsernameAndPassword(nombreUsuario,contraseña);
+                if (resultado) mensaje = "Login exitoso";
             }
             catch (Exception ex)
             {
                 Console.WriteLine("Error Message: " + ex.Message);
             }
-            return resultado;
+            return mensaje;
         }
 
         //Traer Usuario: Debe recibir un nombre del usuario, buscarlo en la base de datos y
@@ -51,18 +52,18 @@ namespace ProyectoFinal.Controllers
         [HttpPost]
         public string Create([FromBody] PostUsuario nuevoUsuario)
         {
-            string resultado = "El usuario no ha sido creado...";
+            string mensaje = "Usuario NO creado";
             try
             {
                 Usuario usuarioAlmacenado = UsuarioHandler.GetOneByUsername(nuevoUsuario.NombreUsuario);
 
                 if (nuevoUsuario.NombreUsuario == usuarioAlmacenado.NombreUsuario)
                 {
-                    resultado = "El usuario ya existe!";
+                    mensaje = "Nombre de Usuario YA EXISTE!";
                 }
                 else
                 {
-                    bool respuesta = UsuarioHandler.Create(new Usuario
+                    bool resultado = UsuarioHandler.Create(new Usuario
                     {
                         Nombre = nuevoUsuario.Nombre,
                         Apellido = nuevoUsuario.Apellido,
@@ -71,26 +72,26 @@ namespace ProyectoFinal.Controllers
                         Mail = nuevoUsuario.Mail
                     });
 
-                    if (respuesta) resultado = "Usuario creado con existo!";
+                    if (resultado) mensaje = "Usuario CREADO";
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine("Error Message: " + ex.Message);
             }
-            return resultado;
+            return mensaje;
         }
 
         //Modificar usuario: Se recibirán todos los datos del usuario por un JSON y
         //se deberá modificar el mismo con los datos nuevos(No crear uno nuevo).
 
         [HttpPut]
-        public bool Update([FromBody]PutUsuario usuario)
+        public string Update([FromBody]PutUsuario usuario)
         {
-            bool resultado = false;
+            string mensaje = "Usuario NO actualizado";
             try
             {
-                resultado = UsuarioHandler.Update(new Usuario
+                bool resultado = UsuarioHandler.Update(new Usuario
                 {
                     Id = usuario.Id,
                     Nombre = usuario.Nombre,
@@ -99,35 +100,33 @@ namespace ProyectoFinal.Controllers
                     Contraseña = usuario.Contraseña,
                     Mail = usuario.Mail
                 });
+
+                if (resultado) mensaje = "Usuario ACTUALIZADO";
             }
             catch (Exception ex)
             {
                 Console.WriteLine("Error Message: " + ex.Message);
-
             }
-
-
-            return resultado;
+            return mensaje;
         }
         
         //Eliminar Usuario: Recibe el ID del usuario a eliminar y
         //lo deberá eliminar de la base de datos.
 
         [HttpDelete]
-        public bool Delete(int id)
+        public string Delete(int id)
         {
-            bool resultado = false;
+            string mensaje = "Usuario NO eliminado";
             try
             {
-                resultado = UsuarioHandler.Delete(id);
-
+                bool resultado = UsuarioHandler.Delete(id);
+                if (resultado) mensaje = "Usuario ELIMINADO";
             }
             catch (Exception ex)
             {
                 Console.WriteLine("Error Message: " + ex.Message);
-
             }
-            return resultado;
+            return mensaje;
         }
     }
 }
