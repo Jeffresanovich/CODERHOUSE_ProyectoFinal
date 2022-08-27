@@ -1,3 +1,4 @@
+using ProyectoFinal.Controllers.DTOS;
 using ProyectoFinal.Model;
 using System.Data.SqlClient;
 
@@ -91,12 +92,10 @@ namespace ProyectoFinal.Repository
 
                 using (SqlCommand sqlCommand = new SqlCommand(queryCreate, sqlConnection))
                 {
-                    SqlParameter idParameter = new SqlParameter("id", System.Data.SqlDbType.BigInt) { Value = productoVendido.Id };
                     SqlParameter stockParameter = new SqlParameter("stock", System.Data.SqlDbType.Int) { Value = productoVendido.Stock };
                     SqlParameter idProductoParameter = new SqlParameter("idProducto", System.Data.SqlDbType.BigInt) { Value = productoVendido.IdProducto };
                     SqlParameter idVentaParameter = new SqlParameter("idVenta", System.Data.SqlDbType.BigInt) { Value = productoVendido.IdVenta };
 
-                    sqlCommand.Parameters.Add(idParameter);
                     sqlCommand.Parameters.Add(stockParameter);
                     sqlCommand.Parameters.Add(idProductoParameter);
                     sqlCommand.Parameters.Add(idVentaParameter);

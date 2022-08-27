@@ -15,16 +15,41 @@ namespace ProyectoFinal.Controller
         //y descontar el stock en la base de productos por el otro.
 
         [HttpPost]
-        public bool Create([FromBody] PostVenta venta)
+        public string Create([FromBody] PostVenta venta)
         {
-            bool resultado = false;
-            
-            resultado = VentaHandler.Create(new Venta 
+            string mensaje = "Venta NO registrada";
+
+            int idNuevaVenta = 6;
+
+            idNuevaVenta = VentaHandler.Create(new Venta
             {
                 Comentarios = venta.Comentarios
             });
 
-            return resultado;
+            Console.WriteLine("NUEVA VENTA: " + idNuevaVenta);   //****  BORRAR  ****
+
+            if (idNuevaVenta > 0)
+            {
+                if (venta.listaProductosVendidos.Count > 0)
+                {
+                    foreach (PostProductoVendido productoVendido in venta.listaProductosVendidos)
+                    {
+                        ProductoVendidoHandler.Create(new ProductoVendido
+                        {
+                            Stock = productoVendido.Stock,
+                            IdProducto = productoVendido.IdProducto,
+                            IdVenta = idNuevaVenta
+                        });
+
+                        mensaje = "Venta REGISTRADA";
+                    }
+                }
+                else
+                {
+                    mensaje = "Venta REGISTRADA, pero sin productos vendidos";
+                }                
+            }
+            return mensaje;
         }
 
 

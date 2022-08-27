@@ -14,7 +14,7 @@ namespace ProyectoFinal.Controller
         //por json, debe cargarlos en la base de ProductosVendidos uno por uno por un
         //lado, cargar la venta propiamente dicha a la base de ventas y
         //descontar el stock del producto por el otro.
-
+        /*
         [HttpPost]
         public string Create([FromBody] PostProductoVendido productoVendido)
         {
@@ -29,9 +29,9 @@ namespace ProyectoFinal.Controller
                     {
                         Stock = productoVendido.Stock,
                         IdProducto = productoVendido.IdProducto,
-                        IdVenta = productoVendido.IdVenta
+                        IdVenta = productoVendido.IdVenta,
                     });
-
+                    
                     //DESPUES DE REGISTAR EL LA VENTA,
                     //SE PROCEDE A DESCONTAR EL STOCK DEL PRODUCTO EN DB:
                     productoAlmacenado.Stock = productoAlmacenado.Stock - productoVendido.Stock;
@@ -48,7 +48,7 @@ namespace ProyectoFinal.Controller
             return mensage;
         }
 
-
+        */
         //Traer Productos Vendidos: Traer Todos los productos vendidos de un Usuario,
         //cuya información está en su producto(Utilizar dentro de esta función el "Traer
         //Productos" anteriormente hecho para saber que productosVendidos ir a buscar).
