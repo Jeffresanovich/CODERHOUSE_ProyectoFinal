@@ -6,7 +6,7 @@ namespace ProyectoFinal.Controllers
     [Route("/api/[Controller]")]   
     public class NombreController : ControllerBase
     {
-        //Traer Nombre del Local: Se debe enviar un json al front que contenga
+        //Traer Nombre: Se debe enviar un JSON al front que contenga
         //únicamente un string con el Nombre de la App a elección.
 
         [HttpGet]

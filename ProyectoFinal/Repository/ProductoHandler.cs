@@ -102,7 +102,6 @@ namespace ProyectoFinal.Repository
             }
             return productos;
         }
-
         private static Producto GetDataFromDataBase(Producto producto, SqlDataReader dataReader)
         {
             producto.Id = Convert.ToInt32(dataReader["Id"]);
@@ -184,6 +183,7 @@ namespace ProyectoFinal.Repository
                 {
                     SqlParameter idParameter = new SqlParameter("id", System.Data.SqlDbType.BigInt) { Value = id };
                     sqlCommand.Parameters.Add(idParameter);
+
                     numeroDeRows = sqlCommand.ExecuteNonQuery();
                     if (numeroDeRows > 0)
                     {
