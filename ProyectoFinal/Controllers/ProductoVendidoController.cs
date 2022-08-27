@@ -16,29 +16,36 @@ namespace ProyectoFinal.Controller
         //descontar el stock del producto por el otro.
 
         [HttpPost]
-        public bool Create([FromBody] PostProductoVendido productoVendido)
+        public string Create([FromBody] PostProductoVendido productoVendido)
         {
             bool resultado = false;
+            string mensage = "No hay stock disponible";
             try
             {
-                resultado = ProductoVendidoHandler.Create(new ProductoVendido
-                {
-                    Stock = productoVendido.Stock,
-                    IdProducto = productoVendido.IdProducto,
-                    IdVenta = productoVendido.IdVenta
-                });
-
-                //DESPUES DE REGISTAR EL LA VENTA,
-                //SE PROCEDE A DESCONTAR EL STOCK DEL PRODUCTO EN DB:
                 Producto productoAlmacenado = ProductoHandler.GetOneById(productoVendido.IdProducto);
-                productoAlmacenado.Stock = productoAlmacenado.Stock - productoVendido.Stock;
-                ProductoHandler.Update(productoAlmacenado);
+                if ((productoAlmacenado.Stock - productoVendido.Stock) > -1)
+                {
+                    resultado = ProductoVendidoHandler.Create(new ProductoVendido
+                    {
+                        Stock = productoVendido.Stock,
+                        IdProducto = productoVendido.IdProducto,
+                        IdVenta = productoVendido.IdVenta
+                    });
+
+                    //DESPUES DE REGISTAR EL LA VENTA,
+                    //SE PROCEDE A DESCONTAR EL STOCK DEL PRODUCTO EN DB:
+                    productoAlmacenado.Stock = productoAlmacenado.Stock - productoVendido.Stock;
+                    ProductoHandler.Update(productoAlmacenado);
+
+                    if (resultado) mensage = "Producto cargado con exito";
+                }
+
             }
             catch (Exception ex)
             {
                 Console.WriteLine("Error Message: " + ex.Message);
             }
-            return resultado;
+            return mensage;
         }
 
 

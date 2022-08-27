@@ -115,7 +115,7 @@ namespace ProyectoFinal.Repository
 
         public static void DeleteByIdProducto(int idProducto)
         {
-            string queryDeleteProducto = "DELETE FROM ProductoVendido WHERE IdProducto = @idProducto";
+            string queryDeleteProducto = "DELETE FROM ProductoVendido WHERE IdProducto = @id";
 
             DeleteByIdVentaOrProducto(idProducto, queryDeleteProducto);
 

@@ -49,19 +49,30 @@ namespace ProyectoFinal.Controllers
         //corroborar si el nombre ya existe).
 
         [HttpPost]
-        public bool Create([FromBody] PostUsuario usuario)
+        public string Create([FromBody] PostUsuario nuevoUsuario)
         {
-            bool resultado = false;
+            string resultado = "El usuario no ha sido creado...";
             try
             {
-                resultado = UsuarioHandler.Create(new Usuario
+                Usuario usuarioAlmacenado = UsuarioHandler.GetOneByUsername(nuevoUsuario.NombreUsuario);
+
+                if (nuevoUsuario.NombreUsuario == usuarioAlmacenado.NombreUsuario)
                 {
-                    Nombre = usuario.Nombre,
-                    Apellido = usuario.Apellido,
-                    NombreUsuario = usuario.NombreUsuario,
-                    Contraseña = usuario.Contraseña,
-                    Mail = usuario.Mail
-                });
+                    resultado = "El usuario ya existe!";
+                }
+                else
+                {
+                    bool respuesta = UsuarioHandler.Create(new Usuario
+                    {
+                        Nombre = nuevoUsuario.Nombre,
+                        Apellido = nuevoUsuario.Apellido,
+                        NombreUsuario = nuevoUsuario.NombreUsuario,
+                        Contraseña = nuevoUsuario.Contraseña,
+                        Mail = nuevoUsuario.Mail
+                    });
+
+                    if (respuesta) resultado = "Usuario creado con existo!";
+                }
             }
             catch (Exception ex)
             {
