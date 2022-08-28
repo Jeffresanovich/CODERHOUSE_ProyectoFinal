@@ -12,12 +12,14 @@ namespace ProyectoFinal.Repository
         //Metodo COMUN a los GET, para almacenar los datos de la Base de Datos... 
         private static GetVenta GetDataFromDataBase(GetVenta venta, SqlDataReader dataReader)
         {
-            venta.IdVenta = Convert.ToInt32(dataReader["Id"]);
+            venta.IdVenta = Convert.ToInt32(dataReader["IdVenta"]);
             venta.Comentarios = dataReader["Comentarios"].ToString();
+            venta.IdProducto = Convert.ToInt32(dataReader["IdProducto"]);
             venta.Descripciones = dataReader["Descripciones"].ToString();
             venta.Costo = Convert.ToDouble(dataReader["Costo"]);
             venta.PrecioVenta = Convert.ToDouble(dataReader["PrecioVenta"]);
             venta.Stock = Convert.ToInt32(dataReader["Stock"]);
+            venta.IdUsuario = Convert.ToInt32(dataReader["IdUsuario"]);
             venta.NombreUsuario = dataReader["NombreUsuario"].ToString();
 
             return venta;
@@ -28,7 +30,7 @@ namespace ProyectoFinal.Repository
         {
             List<GetVenta> listaVentas = new List<GetVenta>();
 
-            string querySelect = "SELECT Venta.Id,Comentarios,Descripciones,Costo,PrecioVenta,ProductoVendido.Stock, NombreUsuario FROM (((ProductoVendido INNER JOIN Producto ON ProductoVendido.IdProducto = Producto.Id) INNER JOIN Venta ON ProductoVendido.IdVenta = Venta.Id)) INNER JOIN Usuario ON Producto.IdUsuario = Usuario.Id ORDER BY Venta.Id";
+            string querySelect = "SELECT Venta.Id as IdVenta,Comentarios,Producto.Id as IdProducto,Descripciones,Costo,PrecioVenta,ProductoVendido.Stock, Usuario.Id as IdUsuario, NombreUsuario FROM (((ProductoVendido INNER JOIN Producto ON ProductoVendido.IdProducto = Producto.Id) INNER JOIN Venta ON ProductoVendido.IdVenta = Venta.Id)) INNER JOIN Usuario ON Producto.IdUsuario = Usuario.Id ORDER BY Venta.Id";
 
             using (SqlConnection sqlConnection = new SqlConnection(connectionString))
             {
@@ -61,7 +63,7 @@ namespace ProyectoFinal.Repository
         {
             List<GetVenta> listaVentas = new List<GetVenta>();
 
-            string querySelect = "SELECT Venta.Id,Comentarios,Descripciones,Costo,PrecioVenta,ProductoVendido.Stock, NombreUsuario  FROM (((ProductoVendido INNER JOIN Producto  ON ProductoVendido.IdProducto = Producto.Id) INNER JOIN Venta  ON ProductoVendido.IdVenta = Venta.Id)) INNER JOIN Usuario  ON Producto.IdUsuario = Usuario.Id WHERE Usuario.Id = @idUsuario ORDER BY Venta.Id";
+            string querySelect = "SELECT Venta.Id as IdVenta,Comentarios,Producto.Id as IdProducto,Descripciones,Costo,PrecioVenta,ProductoVendido.Stock, Usuario.Id as IdUsuario, NombreUsuario FROM (((ProductoVendido INNER JOIN Producto  ON ProductoVendido.IdProducto = Producto.Id) INNER JOIN Venta  ON ProductoVendido.IdVenta = Venta.Id)) INNER JOIN Usuario  ON Producto.IdUsuario = Usuario.Id WHERE Usuario.Id = @idUsuario ORDER BY Venta.Id";
 
             using (SqlConnection sqlConnection = new SqlConnection(connectionString))
             {
