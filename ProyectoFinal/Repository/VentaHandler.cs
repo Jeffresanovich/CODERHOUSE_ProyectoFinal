@@ -1,4 +1,4 @@
-using ProyectoFinal.Controllers.DTOS;
+using ProyectoFinal.Controllers.DTOS.Get;
 using ProyectoFinal.Model;
 using System.Data.SqlClient;
 
@@ -90,13 +90,15 @@ namespace ProyectoFinal.Repository
             return listaVentas;
         }
 
-        //
+        //CREA UNA VENTA Y RESTA EL STOCK A PRODUCTO
         public static int Create(Venta venta)
         {
-            int idNuevaVenta = 0;
+            int idNuevaVenta;
 
             string queryCreate = "INSERT INTO Venta (Comentarios) " +
                                  "VALUES (@comentarios)";
+
+
             using (SqlConnection sqlConnection = new SqlConnection(connectionString))
             {
                 sqlConnection.Open();
@@ -107,16 +109,16 @@ namespace ProyectoFinal.Repository
 
                     sqlCommand.Parameters.Add(comentariosParameter);
 
-                    if (sqlCommand.ExecuteScalar() != null)
-                    {
-                        idNuevaVenta = Convert.ToInt32(sqlCommand.ExecuteScalar());
-                    }
+                    //NO SE PORQUE NO TRAE EL IdVenta
+                    idNuevaVenta = sqlCommand.ExecuteNonQuery();
+
                 }
                 sqlConnection.Close();
             }
             return idNuevaVenta;
         }
 
+        //ELIMINA UNA VENTA Y SUMA EL STOCK A PRODUCTO
         public static bool Delete(int id)
         {
             int numeroDeRows;
@@ -126,9 +128,9 @@ namespace ProyectoFinal.Repository
 
             //PRIMERO SUMA EL STOCK DEL PRODUCTO VENDIDO A CADA PRODUCTO
             //Y LUEGO ELIMIMA LA VENTA
-
             ProductoVendidoHandler.DeleteByIdVenta(id);
 
+            //LUEGO PROCEDE A ELIMINAR LA VENTA PROPIAMENTE DICHA
             using (SqlConnection sqlConnection = new SqlConnection(connectionString))
             {
                 sqlConnection.Open();

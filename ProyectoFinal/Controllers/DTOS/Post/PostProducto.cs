@@ -1,8 +1,7 @@
-namespace ProyectoFinal.Controllers.DTOS;
+namespace ProyectoFinal.Controllers.DTOS.Post;
 
-    public class PutProducto
+public class PostProducto
 {
-    public int Id { set; get; }
     public string Descripciones { set; get; }
     public double Costo { set; get; }
     public double PrecioVenta { set; get; }

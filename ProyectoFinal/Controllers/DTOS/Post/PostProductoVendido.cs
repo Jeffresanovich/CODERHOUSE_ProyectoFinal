@@ -1,4 +1,4 @@
-﻿namespace ProyectoFinal.Controllers.DTOS
+﻿namespace ProyectoFinal.Controllers.DTOS.Post
 {
     public class PostProductoVendido
     {

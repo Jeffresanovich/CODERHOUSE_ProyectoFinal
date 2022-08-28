@@ -1,8 +1,9 @@
 using ProyectoFinal.Model;
 using ProyectoFinal.Repository;
 using Microsoft.AspNetCore.Mvc;
-using ProyectoFinal.Controllers.DTOS;
 using System.Threading;
+using ProyectoFinal.Controllers.DTOS.Post;
+using ProyectoFinal.Controllers.DTOS.Put;
 
 namespace ProyectoFinal.Controllers
 {
@@ -41,7 +42,7 @@ namespace ProyectoFinal.Controllers
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error Message: " + ex.Message);
+                Console.WriteLine("ERROR_MESSAGE: " + ex.Message);
             }
             return mensaje;
         }
@@ -69,7 +70,7 @@ namespace ProyectoFinal.Controllers
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error Message: " + ex.Message);
+                Console.WriteLine("ERROR_MESSAGE: " + ex.Message);
 
             }
             return mensaje;
@@ -94,7 +95,7 @@ namespace ProyectoFinal.Controllers
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error Message Prodcucto: " + ex.Message);
+                Console.WriteLine("ERROR_MESSAGE: " + ex.Message);
 
             }
             return mensaje;

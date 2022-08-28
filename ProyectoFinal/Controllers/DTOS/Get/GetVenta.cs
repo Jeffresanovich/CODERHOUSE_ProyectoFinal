@@ -1,4 +1,4 @@
-﻿namespace ProyectoFinal.Controllers.DTOS
+﻿namespace ProyectoFinal.Controllers.DTOS.Get
 {
     public class GetVenta
     {

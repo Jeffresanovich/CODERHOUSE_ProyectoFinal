@@ -1,9 +1,10 @@
-using ProyectoFinal.Controllers.DTOS;
 using ProyectoFinal.Model;
 using ProyectoFinal.Repository;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Collections;
+using ProyectoFinal.Controllers.DTOS.Post;
+using ProyectoFinal.Controllers.DTOS.Put;
 
 namespace ProyectoFinal.Controllers
 {
@@ -26,7 +27,7 @@ namespace ProyectoFinal.Controllers
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error Message: " + ex.Message);
+                Console.WriteLine("ERROR_MESSAGE: " + ex.Message);
             }
             return mensaje;
         }
@@ -38,7 +39,18 @@ namespace ProyectoFinal.Controllers
         [HttpGet("{nombreUsuario}")]
         public Usuario GetOneByUsername(string nombreUsuario)
         {
-            return UsuarioHandler.GetOneByUsername(nombreUsuario);
+            Usuario usuario = new Usuario();
+            try
+            {
+            usuario = UsuarioHandler.GetOneByUsername(nombreUsuario);
+
+            }
+            catch(Exception ex) 
+            {
+                Console.WriteLine("ERROR_MESSAGE:" + ex.Message);
+            }
+
+            return usuario;
         }
 
 
@@ -77,7 +89,7 @@ namespace ProyectoFinal.Controllers
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error Message: " + ex.Message);
+                Console.WriteLine("ERROR_MESSAGE: " + ex.Message);
             }
             return mensaje;
         }
@@ -105,7 +117,7 @@ namespace ProyectoFinal.Controllers
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error Message: " + ex.Message);
+                Console.WriteLine("ERROR_MESSAGE: " + ex.Message);
             }
             return mensaje;
         }
@@ -124,7 +136,7 @@ namespace ProyectoFinal.Controllers
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error Message: " + ex.Message);
+                Console.WriteLine("ERROR_MESSAGE: " + ex.Message);
             }
             return mensaje;
         }

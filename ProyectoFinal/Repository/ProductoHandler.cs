@@ -7,6 +7,20 @@ namespace ProyectoFinal.Repository
     {
         public const string connectionString = @"Server=JEFF-PC;Database=SistemaGestion;Trusted_Connection=True";
 
+        //Metodo COMUN a los GET, para almacenar los datos de la Base de Datos... 
+        private static Producto GetDataFromDataBase(Producto producto, SqlDataReader dataReader)
+        {
+            producto.Id = Convert.ToInt32(dataReader["Id"]);
+            producto.Descripciones = dataReader["Descripciones"].ToString();
+            producto.Costo = Convert.ToDouble(dataReader["Costo"]);
+            producto.PrecioVenta = Convert.ToDouble(dataReader["PrecioVenta"]);
+            producto.Stock = Convert.ToInt32(dataReader["Stock"]);
+            producto.IdUsuario = Convert.ToInt32(dataReader["IdUsuario"]);
+
+            return producto;
+        }
+        
+        //HACE JUSTAMENTE ESO...
         public static List<Producto> GetAll()
         {
             List<Producto> productos = new List<Producto>();
@@ -39,6 +53,7 @@ namespace ProyectoFinal.Repository
             return productos;
         }
         
+        //TRAE UN SOLO PRODUCTO
         public static Producto GetOneById(int id)
         {
             Producto producto = new Producto();
@@ -69,7 +84,9 @@ namespace ProyectoFinal.Repository
             }
             return producto;
         }
-        public static List<Producto> GetOneByIdUsuario(int idUsuario)
+        
+        //TRAE TODOS LOS PRODUCTOS DE UN USUARIO
+        public static List<Producto> GetByIdUsuario(int idUsuario)
         {
             List<Producto> productos = new List<Producto>();          
 
@@ -101,19 +118,10 @@ namespace ProyectoFinal.Repository
                 sqlConnection.Close();
             }
             return productos;
-        }
-        private static Producto GetDataFromDataBase(Producto producto, SqlDataReader dataReader)
-        {
-            producto.Id = Convert.ToInt32(dataReader["Id"]);
-            producto.Descripciones = dataReader["Descripciones"].ToString();
-            producto.Costo = Convert.ToDouble(dataReader["Costo"]);
-            producto.PrecioVenta = Convert.ToDouble(dataReader["PrecioVenta"]);
-            producto.Stock = Convert.ToInt32(dataReader["Stock"]);
-            producto.IdUsuario = Convert.ToInt32(dataReader["IdUsuario"]);
+        }        
 
-            return producto;
-        }
 
+        //CREA UN PRODUCTO (usa metodo comun: "CreateUpdateConnection(...)")
         public static bool Create(Producto producto)
         {
             string queryCreate = "INSERT INTO Producto (Descripciones,Costo,PrecioVenta,Stock,IdUsuario) " +
@@ -121,6 +129,8 @@ namespace ProyectoFinal.Repository
 
             return CreateUpdateConnection(producto, queryCreate);
         }
+
+        //MODIFICA UN PRODUCTO (usa metodo comun: "CreateUpdateConnection(...)")
         public static bool Update(Producto producto)
         {
             string queryUpdate = "UPDATE Producto " +
@@ -133,6 +143,8 @@ namespace ProyectoFinal.Repository
 
             return CreateUpdateConnection(producto, queryUpdate);
         }
+
+        //Metodo COMUN para conectarse y CREAR O ACTUALIZAR un Producto
         private static bool CreateUpdateConnection(Producto producto, string query)
         {
             int numeroDeRows;
@@ -168,7 +180,9 @@ namespace ProyectoFinal.Repository
             }
             return resultado;
         }
-        
+
+
+        //ELIMINA UN PRODUCTO
         public static bool Delete(int id)
         {
             int numeroDeRows;
