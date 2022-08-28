@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\REPOSITORIOS\\Nueva carpeta\\ProyectoFinal\\ProyectoFinal.csproj": {}
+    "C:\\REPOSITORIOS\\CODERHOUSE_ProyectoFinal\\ProyectoFinal\\ProyectoFinal.csproj": {}
   },
   "projects": {
-    "C:\\REPOSITORIOS\\Nueva carpeta\\ProyectoFinal\\ProyectoFinal.csproj": {
+    "C:\\REPOSITORIOS\\CODERHOUSE_ProyectoFinal\\ProyectoFinal\\ProyectoFinal.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\REPOSITORIOS\\Nueva carpeta\\ProyectoFinal\\ProyectoFinal.csproj",
+        "projectUniqueName": "C:\\REPOSITORIOS\\CODERHOUSE_ProyectoFinal\\ProyectoFinal\\ProyectoFinal.csproj",
         "projectName": "ProyectoFinal",
-        "projectPath": "C:\\REPOSITORIOS\\Nueva carpeta\\ProyectoFinal\\ProyectoFinal.csproj",
+        "projectPath": "C:\\REPOSITORIOS\\CODERHOUSE_ProyectoFinal\\ProyectoFinal\\ProyectoFinal.csproj",
         "packagesPath": "C:\\Users\\Jeff\\.nuget\\packages\\",
-        "outputPath": "C:\\REPOSITORIOS\\Nueva carpeta\\ProyectoFinal\\obj\\",
+        "outputPath": "C:\\REPOSITORIOS\\CODERHOUSE_ProyectoFinal\\ProyectoFinal\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

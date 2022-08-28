@@ -7,6 +7,7 @@ namespace ProyectoFinal.Repository
     {
         public const string connectionString = @"Server=JEFF-PC;Database=SistemaGestion;Trusted_Connection=True";
 
+        //INICIO DE SESION
         public static bool LoginByUsernameAndPassword(string username, string password)
         {
             //DEVUELVE TRUE SI COINCIDE USUARIO Y CONTRASEÑA: "Inicio de sesión"
@@ -38,6 +39,8 @@ namespace ProyectoFinal.Repository
             }
             return resultado;
         }
+        
+        //TRAE UN USUARIO
         public static Usuario GetOneByUsername(string username)
         {
             Usuario usuario = new Usuario();
@@ -72,8 +75,10 @@ namespace ProyectoFinal.Repository
                 sqlConnection.Close();
             }
             return usuario;
-        }      
-        
+        }
+
+
+        //CREA UN USUARIO (usa metodo comun: "CreateUpdateConnection(...)")
         public static bool Create(Usuario usuario)
         {
             string queryCreate = "INSERT INTO Usuario (Nombre,Apellido,NombreUsuario,Contraseña,Mail) " +
@@ -81,6 +86,8 @@ namespace ProyectoFinal.Repository
 
             return CreateUpdateConnection(usuario, queryCreate);
         }
+
+        //MODIFICA UN USUARIO (usa metodo comun: "CreateUpdateConnection(...)")
         public static bool Update(Usuario usuario)
         {       
             string queryUpdate = "UPDATE Usuario " +
@@ -93,6 +100,8 @@ namespace ProyectoFinal.Repository
 
             return CreateUpdateConnection(usuario, queryUpdate);
         }
+        
+        //Metodo COMUN para conectarse y CREAR O ACTUALIZAR un Usuario
         private static bool CreateUpdateConnection(Usuario usuario, string query)
         {
             int numeroDeRows;
@@ -128,7 +137,9 @@ namespace ProyectoFinal.Repository
             }
             return resultado;
         }
-       
+
+
+        //ELIMINA UN USUARIO
         public static bool Delete(int id)
         {
             int numeroDeRows;

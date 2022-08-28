@@ -53,7 +53,6 @@ namespace ProyectoFinal.Repository
         private static List<ProductoVendido> GetByIdVenta(int idVenta)
         {
             List<ProductoVendido> listaProductosVendidos = new List<ProductoVendido>();
-            ProductoVendido productoVendido = new ProductoVendido();
 
             string querySelect = "SELECT * FROM ProductoVendido WHERE IdVenta = @idVenta";
 
@@ -71,7 +70,10 @@ namespace ProyectoFinal.Repository
                         {
                             while (dataReader.Read())
                             {
+                                ProductoVendido productoVendido = new ProductoVendido();
+
                                 productoVendido = GetDataFromDataBase(productoVendido, dataReader);
+
                                 listaProductosVendidos.Add(productoVendido);
                             }
                         }
@@ -88,8 +90,14 @@ namespace ProyectoFinal.Repository
         {
             Producto productoAlmacenado = ProductoHandler.GetOneById(idProducto);
 
-            if (restar) productoAlmacenado.Stock = productoAlmacenado.Stock - stockVendido;
-            else productoAlmacenado.Stock = productoAlmacenado.Stock + stockVendido;
+            if (restar)
+            {
+                productoAlmacenado.Stock = productoAlmacenado.Stock - stockVendido;
+            }
+            else
+            {
+                productoAlmacenado.Stock = productoAlmacenado.Stock + stockVendido;
+            }
 
             ProductoHandler.Update(productoAlmacenado);
 
@@ -139,14 +147,16 @@ namespace ProyectoFinal.Repository
         //Y LUEGO ELIMIMA LA VENTA
         public static void DeleteByIdVenta(int idVenta)
         {
-            string queryDeleteVenta = "DELETE FROM ProductoVendido WHERE IdVenta = @id";
+            //AQUI SE PROCEDE A SUMAR EL PRODUCTO VENDIDO
+            //DEL STOCK DE PRODUCTO: true = RESTA  Y  false = SUMA
+            List<ProductoVendido> listaProductosVendidos = GetByIdVenta(idVenta);
 
-            foreach (ProductoVendido productoVendido in GetByIdVenta(idVenta))
+            foreach (ProductoVendido productoVendido in listaProductosVendidos)
             {
-                //AQUI SE PROCEDE A SUMAR EL PRODUCTO VENDIDO
-                //DEL STOCK DE PRODUCTO: true = RESTA  Y  false = SUMA
                 SumaORestaDeStock(false, productoVendido.IdProducto, productoVendido.Stock);
             }
+
+            string queryDeleteVenta = "DELETE FROM ProductoVendido WHERE IdVenta = @id";
 
             DeleteByIdVentaOrProducto(idVenta, queryDeleteVenta);
 
