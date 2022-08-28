@@ -1,4 +1,5 @@
 using ProyectoFinal.Controllers.DTOS.Get;
+using ProyectoFinal.Controllers.DTOS.Post;
 using ProyectoFinal.Model;
 using System.Data.SqlClient;
 
@@ -11,7 +12,7 @@ namespace ProyectoFinal.Repository
         //Metodo COMUN a los GET, para almacenar los datos de la Base de Datos... 
         private static GetVenta GetDataFromDataBase(GetVenta venta, SqlDataReader dataReader)
         {
-            venta.Id = Convert.ToInt32(dataReader["Id"]);
+            venta.IdVenta = Convert.ToInt32(dataReader["Id"]);
             venta.Comentarios = dataReader["Comentarios"].ToString();
             venta.Descripciones = dataReader["Descripciones"].ToString();
             venta.Costo = Convert.ToDouble(dataReader["Costo"]);
@@ -91,31 +92,63 @@ namespace ProyectoFinal.Repository
         }
 
         //CREA UNA VENTA Y RESTA EL STOCK A PRODUCTO
-        public static int Create(Venta venta)
+        public static string Create(PostVenta venta)
         {
-            int idNuevaVenta;
+            string mensaje = "Venta NO registrada";
 
             string queryCreate = "INSERT INTO Venta (Comentarios) " +
-                                 "VALUES (@comentarios)";
-
-
-            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+                                 "VALUES (@comentarios)  SELECT SCOPE_IDENTITY()";
+            
+            int idNuevaVenta;
+            
+            try
             {
-                sqlConnection.Open();
-
-                using (SqlCommand sqlCommand = new SqlCommand(queryCreate, sqlConnection))
+                using (SqlConnection sqlConnection = new SqlConnection(connectionString))
                 {
-                    SqlParameter comentariosParameter = new SqlParameter("comentarios", System.Data.SqlDbType.VarChar) { Value = venta.Comentarios };
+                    sqlConnection.Open();
 
-                    sqlCommand.Parameters.Add(comentariosParameter);
+                    using (SqlCommand sqlCommand = new SqlCommand(queryCreate, sqlConnection))
+                    {
+                        SqlParameter comentariosParameter = new SqlParameter("comentarios", System.Data.SqlDbType.VarChar) { Value = venta.Comentarios };
 
-                    //NO SE PORQUE NO TRAE EL IdVenta
-                    idNuevaVenta = sqlCommand.ExecuteNonQuery();
+                        sqlCommand.Parameters.Add(comentariosParameter);
 
+                        //ALMACENO EL IdVenta DEL NUEVO REGISTRO PARA USARLO EN LA
+                        //INSERCION DEL LOS PRODUCTOS
+                        idNuevaVenta = Convert.ToInt32(sqlCommand.ExecuteScalar());
+
+                    }
+                    sqlConnection.Close();
                 }
-                sqlConnection.Close();
+
+                if (idNuevaVenta > 0)
+                {
+                    if (venta.listaProductosVendidos.Count > 0)
+                    {
+                        foreach (PostProductoVendido productoVendido in venta.listaProductosVendidos)
+                        {
+                            ProductoVendidoHandler.Create(new ProductoVendido
+                            {
+                                Stock = productoVendido.Stock,
+                                IdProducto = productoVendido.IdProducto,
+                                IdVenta = idNuevaVenta
+                            });
+
+                            mensaje = "Venta REGISTRADA";
+                        }
+                    }
+                    else
+                    {
+                        mensaje = "Venta REGISTRADA, pero sin productos vendidos";
+                    }
+                }
             }
-            return idNuevaVenta;
+            catch (Exception ex)
+            {
+                Console.WriteLine("ERROR_MESSAGE: " + ex.Message);
+            }
+
+            return mensaje;
         }
 
         //ELIMINA UNA VENTA Y SUMA EL STOCK A PRODUCTO

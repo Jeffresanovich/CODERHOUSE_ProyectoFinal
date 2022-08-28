@@ -30,7 +30,6 @@ namespace ProyectoFinal.Controller
         }
 
 
-
         //Cargar Venta: Recibe una lista de productos y el número de IdUsuario de quien la
         //efectuó, primero cargar una nueva venta en la base de datos, luego debe cargar
         //los productos recibidos en la base de ProductosVendidos uno por uno por un lado,
@@ -38,38 +37,9 @@ namespace ProyectoFinal.Controller
         [HttpPost]
         public string Create([FromBody] PostVenta venta)
         {
-            string mensaje = "Venta NO registrada";
-
-            int idNuevaVenta = VentaHandler.Create(new Venta
-            {
-                Comentarios = venta.Comentarios
-            });
-
-            idNuevaVenta = venta.Id;
-
-            if (idNuevaVenta > 0)
-            {
-                if (venta.listaProductosVendidos.Count > 0)
-                {
-                    foreach (PostProductoVendido productoVendido in venta.listaProductosVendidos)
-                    {
-                        ProductoVendidoHandler.Create(new ProductoVendido
-                        {
-                            Stock = productoVendido.Stock,
-                            IdProducto = productoVendido.IdProducto,
-                            IdVenta = idNuevaVenta
-                        });
-
-                        mensaje = "Venta REGISTRADA";
-                    }
-                }
-                else
-                {
-                    mensaje = "Venta REGISTRADA, pero sin productos vendidos";
-                }                
-            }
-            return mensaje;
+            return VentaHandler.Create(venta);
         }
+
 
         //Eliminar Venta: Recibe una venta con su número de Id, debe buscar en la base de
         //Productos Vendidos cuáles lo tienen eliminándolos, sumar el stock a los
