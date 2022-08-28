@@ -19,6 +19,7 @@ namespace ProyectoFinal.Controller
             return VentaHandler.GetAll();
         }
 
+
         //Traer Productos Vendidos: Traer Todos los productos vendidos de un Usuario,
         //cuya información está en su producto(Utilizar dentro de esta función el
         //"Traer Productos" anteriormente hecho para saber que
