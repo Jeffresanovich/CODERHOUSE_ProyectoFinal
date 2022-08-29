@@ -69,7 +69,15 @@ namespace ProyectoFinal.Controllers
             {
                 Usuario usuarioAlmacenado = UsuarioHandler.GetOneByUsername(nuevoUsuario.NombreUsuario);
 
-                if (nuevoUsuario.NombreUsuario == usuarioAlmacenado.NombreUsuario)
+                if (nuevoUsuario.Nombre=="" ||
+                    nuevoUsuario.Apellido == "" ||
+                    nuevoUsuario.NombreUsuario == "" ||
+                    nuevoUsuario.Nombre == "" ||
+                    nuevoUsuario.Nombre == "")
+                {
+                    mensaje = "Todos los campos son OBLIGATORIOS";
+                }
+                else if (nuevoUsuario.NombreUsuario == usuarioAlmacenado.NombreUsuario)
                 {
                     mensaje = "Nombre de Usuario YA EXISTE!";
                 }
