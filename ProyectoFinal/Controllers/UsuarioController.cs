@@ -75,7 +75,7 @@ namespace ProyectoFinal.Controllers
                     nuevoUsuario.Nombre == "" ||
                     nuevoUsuario.Nombre == "")
                 {
-                    mensaje = "Faltan llenar campos";
+                    mensaje = "Todos los campos son OBLIGATORIOS";
                 }
                 else if (nuevoUsuario.NombreUsuario == usuarioAlmacenado.NombreUsuario)
                 {
